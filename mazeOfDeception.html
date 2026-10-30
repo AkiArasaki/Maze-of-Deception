@@ -1,0 +1,2547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maze Of Deception</title>
+    <script>
+        const mazeStyle = {
+            cellSize: 44,
+            strokeWidth: 4.5,
+            dotRadius: 2.5,
+            colors: {
+                line: 'var(--black)',
+                dot: 'var(--black)',
+                number: 'var(--gray)',
+                arrow: 'var(--red)'
+            }
+        };
+
+        const mazeChapters = {
+            chapter1: [
+                // Maze 01
+                {
+                    size: 6,
+                    frame: false,
+                    comment: `Everyone knows how a <span class="red">maze</span> works.`,
+                    segments: [
+                        [[0,0],[0,2]], [[0,3],[0,5]],
+                        [[5,0],[5,2]], [[5,3],[5,5]],
+                        [[0,0],[5,0]], [[0,5],[5,5]],
+                        [[0,2],[1,2]], [[1,1],[1,3]],
+                        [[1,4],[1,5]], [[1,3],[2,3]],
+                        [[1,4],[2,4]], [[2,1],[4,1]],
+                        [[2,2],[3,2]], [[3,0],[3,1]],
+                        [[3,2],[3,4]], [[3,3],[5,3]],
+                        [[4,1],[4,2]], [[4,3],[4,4]]
+                    ],
+                    numbers: [],
+                    openings: [
+                        { side: 'top', index: 2, direction: 'in' },
+                        { side: 'bottom', index: 2, direction: 'out' }
+                    ]
+                },
+                // Maze 02
+                {
+                    size: 6,
+                    frame: false,
+                    comment: `Everyone knows how a <span class="red">maze</span> works.`,
+                    segments: [
+                        [[0,0],[0,2]],
+                        [[0,3],[0,5]],
+                        [[5,0],[5,2]],
+                        [[5,3],[5,5]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[1,1],[1,2]],
+                        [[1,3],[1,4]],
+                        [[1,2],[2,2]],
+                        [[1,4],[4,4]],
+                        [[2,0],[2,4]],
+                        [[2,1],[4,1]],
+                        [[2,3],[3,3]],
+                        [[3,2],[4,2]],
+                        [[4,2],[4,3]],
+                        [[4,3],[5,3]]
+                    ],
+                    numbers: [],
+                    openings: [
+                        { side: 'top', index: 2, direction: 'in' },
+                        { side: 'bottom', index: 2, direction: 'out' }
+                    ]
+                },
+                // Maze 03
+                {
+                    size: 6,
+                    frame: false,
+                    comment: `Everyone knows how a <span class="red">maze</span> works.`,
+                    segments: [
+                        [[0,0],[0,2]],
+                        [[0,3],[0,5]],
+                        [[5,0],[5,2]],
+                        [[5,3],[5,5]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[1,3],[1,4]],
+                        [[1,4],[4,4]],
+                        [[2,0],[2,4]],
+                        [[2,1],[4,1]],
+                        [[2,3],[3,3]],
+                        [[3,2],[4,2]],
+                        [[4,2],[4,3]],
+                        [[4,3],[5,3]]
+                    ],
+                    numbers: [],
+                    openings: [
+                        { side: 'top', index: 2, direction: 'in' },
+                        { side: 'bottom', index: 2, direction: 'out' }
+                    ]
+                },
+                // Maze 04
+                {
+                    size: 6,
+                    frame: false,
+                    comment: `Everyone knows how a <span class="red">maze</span> works.`,
+                    segments: [
+                        [[0,0],[0,2]],
+                        [[0,3],[0,5]],
+                        [[5,0],[5,2]],
+                        [[5,3],[5,5]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[0,2],[2,2]],
+                        [[1,2],[1,3]],
+                        [[1,4],[1,5]],
+                        [[2,3],[4,3]],
+                        [[3,2],[3,5]],
+                        [[3,1],[4,1]],
+                        [[4,0],[4,1]],
+                        [[4,2],[5,2]]
+                    ],
+                    numbers: [],
+                    openings: [
+                        { side: 'top', index: 2, direction: 'in' },
+                        { side: 'bottom', index: 2, direction: 'out' }
+                    ]
+                }
+            ],
+            chapter2: [
+                // Maze 05
+                {
+                    size: 4,
+                    frame: false,
+                    comment: `Wild numbers appeared.`,
+                    segments: [
+                        [[0,0],[0,1]],
+                        [[0,2],[0,3]],
+                        [[3,0],[3,1]],
+                        [[3,2],[3,3]],
+                        [[0,0],[3,0]],
+                        [[0,3],[3,3]],
+                        [[1,1],[2,1]],
+                        [[0,2],[1,2]],
+                        [[2,2],[2,3]]
+                    ],
+                    numbers: [
+                        {"row":1.5,"col":1.5,"text":"1"}
+                    ],
+                    openings: [
+                        {"side":"top","index":1,"direction":"in"},
+                        {"side":"bottom","index":1,"direction":"out"}
+                    ]
+                },
+                // Maze 06
+                {
+                    size: 4,
+                    frame: false,
+                    comment: `Wild numbers appeared.`,
+                    segments: [
+                        [[0,1],[0,3]],
+                        [[3,0],[3,2]],
+                        [[0,0],[3,0]],
+                        [[0,3],[3,3]],
+                        [[1,0],[1,1]],
+                        [[1,2],[2,2]]
+                    ],
+                    numbers: [
+                        {"row":0.5,"col":2.5,"text":"1"}
+                    ],
+                    openings: [
+                        {"side":"top","index":0,"direction":"in"},
+                        {"side":"bottom","index":2,"direction":"out"}
+                    ]
+                },
+                // Maze 07
+                {
+                    size: 6,
+                    frame: false,
+                    comment: `Wild numbers appeared.`,
+                    segments: [
+                        [[0,0],[0,2]],
+                        [[0,3],[0,5]],
+                        [[5,0],[5,2]],
+                        [[5,3],[5,5]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[1,1],[2,1]],
+                        [[2,0],[2,1]],
+                        [[1,2],[3,2]],
+                        [[1,2],[1,3]],
+                        [[1,3],[3,3]],
+                        [[1,4],[2,4]],
+                        [[3,1],[4,1]],
+                        [[4,1],[4,4]],
+                        [[3,4],[4,4]]
+                    ],
+                    numbers: [
+                        {"row":1.5,"col":3.5,"text":"1"},
+                        {"row":4.5,"col":0.5,"text":"2"}
+                    ],
+                    openings: [
+                        {"side":"top","index":2,"direction":"in"},
+                        {"side":"bottom","index":2,"direction":"out"}
+                    ]
+                },
+                // Maze 08
+                {
+                    size: 6,
+                    frame: false,
+                    comment: `Wild numbers appeared.`,
+                    segments: [
+                        [[0,1],[0,5]],
+                        [[5,0],[5,4]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[0,3],[1,3]],
+                        [[1,1],[1,4]],
+                        [[2,1],[2,4]],
+                        [[3,1],[3,4]],
+                        [[4,4],[5,4]]
+                    ],
+                    numbers: [
+                        {"row":2.5,"col":1.5,"text":"1"},
+                        {"row":2.5,"col":3.5,"text":"2"}
+                    ],
+                    openings: [
+                        {"side":"top","index":0,"direction":"in"},
+                        {"side":"bottom","index":4,"direction":"out"}
+                    ]
+                },
+                // Maze 09
+                {
+                    size: 6,
+                    frame: false,
+                    comment: `Wild numbers appeared.`,
+                    segments: [
+                        [[0,0],[0,1]],
+                        [[0,2],[0,5]],
+                        [[5,0],[5,5]],
+                        [[0,0],[5,0]],
+                        [[0,5],[3,5]],
+                        [[4,5],[5,5]],
+                        [[1,0],[1,2]],
+                        [[0,3],[2,3]],
+                        [[2,1],[4,1]],
+                        [[3,2],[3,4]],
+                        [[3,4],[4,4]],
+                        [[4,1],[4,3]]
+                    ],
+                    numbers: [
+                        {row:1.5, col:1.5, text:"1"},
+                        {row:3.5, col:1.5, text:"2"},
+                        {row:3.5, col:3.5, text:"3"}
+                    ],
+                    openings: [
+                        {side:"top", index:1, direction:"in"},
+                        {side:"right", index:3, direction:"out"}
+                    ]
+                },
+                // Maze 10
+                {
+                    size: 6,
+                    frame: false,
+                    comment: `Wild numbers appeared.`,
+                    segments: [
+                        [[0,0],[0,4]],
+                        [[5,0],[5,2]],
+                        [[5,3],[5,5]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[2,0],[2,1]],
+                        [[2,1],[3,1]],
+                        [[2,2],[3,2]],
+                        [[3,3],[5,3]],
+                        [[4,1],[4,2]],
+                        [[4,1],[5,1]]
+                    ],
+                    numbers: [
+                        {row:0.5, col:0.5, text:"2"},
+                        {row:0.5, col:1.5, text:"1"},
+                        {row:3.5, col:4.5, text:"3"},
+                        {row:4.5, col:4.5, text:"4"}
+                    ],
+                    openings: [
+                        {side:"top", index:4, direction:"in"},
+                        {side:"bottom", index:2, direction:"out"}
+                    ]
+                },
+                // Maze 11
+                {
+                    size: 6,
+                    frame: false,
+                    comment: `Wild numbers appeared.`,
+                    segments: [
+                        [[0,0],[0,2]],
+                        [[0,3],[0,5]],
+                        [[5,0],[5,2]],
+                        [[5,3],[5,5]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[2,1],[4,1]],
+                        [[2,2],[4,2]],
+                        [[2,3],[4,3]],
+                        [[3,3],[3,4]],
+                        [[4,3],[4,4]]
+                    ],
+                    numbers: [
+                        {row:2.5, col:1.5, text:"2"},
+                        {row:3.5, col:1.5, text:"1"},
+                        {row:2.5, col:3.5, text:"3"}
+                    ],
+                    openings: [
+                        {side:"top", index:2, direction:"out"},
+                        {side:"bottom", index:2, direction:"in"}
+                    ]
+                },
+                // Maze 12
+                {
+                    size: 6,
+                    frame: false,
+                    comment: `Wild numbers appeared.`,
+                    segments: [
+                        [[0,0],[0,2]],
+                        [[0,3],[0,5]],
+                        [[5,0],[5,2]],
+                        [[5,3],[5,5]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[2,1],[4,1]],
+                        [[2,2],[4,2]],
+                        [[2,3],[4,3]],
+                        [[3,3],[3,4]],
+                        [[4,3],[4,4]]
+                    ],
+                    numbers: [
+                        {row:2.5, col:1.5, text:"2"},
+                        {row:3.5, col:1.5, text:"1"},
+                        {row:2.5, col:3.5, text:"3"}
+                    ],
+                    openings: [
+                        {side:"top", index:2, direction:"in"},
+                        {side:"bottom", index:2, direction:"out"}
+                    ]
+                }
+            ],
+            chapter3: [
+                // Maze 13
+                {
+                    size: 4,
+                    frame: false,
+                    comment: `Imagine these puzzles not having just one solution lol.`,
+                    segments: [
+                        [[0,0],[0,1]],
+                        [[0,2],[0,3]],
+                        [[3,0],[3,1]],
+                        [[3,2],[3,3]],
+                        [[0,0],[3,0]],
+                        [[0,3],[3,3]],
+                        [[1,0],[1,1]],
+                        [[1,1],[2,1]],
+                        [[1,2],[3,2]]
+                    ],
+                    numbers: [],
+                    openings: [
+                        {side:"top", index:1, direction:"in"},
+                        {side:"bottom", index:1, direction:"out"}
+                    ]
+                },
+                // Maze 14
+                {
+                    size: 4,
+                    frame: false,
+                    comment: `Imagine these puzzles not having just one solution lol.`,
+                    segments: [
+                        [[0,0],[0,1]],
+                        [[0,2],[0,3]],
+                        [[3,0],[3,1]],
+                        [[3,2],[3,3]],
+                        [[0,0],[3,0]],
+                        [[0,3],[3,3]],
+                        [[1,0],[1,1]],
+                        [[1,2],[3,2]]
+                    ],
+                    numbers: [],
+                    openings: [
+                        {side:"top", index:1, direction:"in"},
+                        {side:"bottom", index:1, direction:"out"}
+                    ]
+                },
+                // Maze 15
+                {
+                    size: 6,
+                    frame: false,
+                    comment: `Imagine these puzzles not having just one solution lol.`,
+                    segments: [
+                        [[0,1],[0,5]],
+                        [[5,0],[5,4]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[0,1],[2,1]],
+                        [[1,1],[1,2]],
+                        [[1,3],[1,5]],
+                        [[1,3],[4,3]],
+                        [[2,2],[3,2]],
+                        [[3,0],[3,2]],
+                        [[3,1],[4,1]],
+                        [[4,1],[4,2]],
+                        [[2,4],[5,4]]
+                    ],
+                    numbers: [],
+                    openings: [
+                        {side:"top", index:0, direction:"in"},
+                        {side:"bottom", index:4, direction:"out"}
+                    ]
+                },
+                // Maze 16
+                {
+                    size: 6,
+                    frame: false,
+                    comment: `Imagine these puzzles not having just one solution lol.`,
+                    segments: [
+                        [[0,1],[0,5]],
+                        [[5,0],[5,4]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[0,1],[2,1]],
+                        [[1,1],[1,2]],
+                        [[1,3],[1,5]],
+                        [[1,3],[4,3]],
+                        [[2,2],[3,2]],
+                        [[3,0],[3,2]],
+                        [[3,1],[4,1]],
+                        [[4,1],[4,2]]
+                    ],
+                    numbers: [],
+                    openings: [
+                        {side:"top", index:0, direction:"in"},
+                        {side:"bottom", index:4, direction:"out"}
+                    ]
+                },
+                // Maze 17
+                {
+                    size: 6,
+                    frame: false,
+                    comment: `There’s like 12 other puzzles to confirm your theory about the rules if you really think about it.`,
+                    segments: [
+                        [[0,0],[0,3]],
+                        [[0,4],[0,5]],
+                        [[5,0],[5,1]],
+                        [[5,2],[5,5]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[1,0],[1,4]],
+                        [[1,2],[3,2]],
+                        [[2,2],[2,3]],
+                        [[1,4],[2,4]],
+                        [[2,1],[4,1]],
+                        [[4,1],[4,2]],
+                        [[4,2],[5,2]],
+                        [[3,4],[3,5]],
+                        [[3,3],[5,3]],
+                        [[4,3],[4,4]]
+                    ],
+                    numbers: [],
+                    openings: [
+                        {side:"top", index:3, direction:"in"},
+                        {side:"bottom", index:1, direction:"out"}
+                    ]
+                },
+                // Maze 18
+                {
+                    size: 6,
+                    frame: false,
+                    comment: `There’s like 12 other puzzles to confirm your theory about the rules if you really think about it.`,
+                    segments: [
+                        [[0,0],[0,3]],
+                        [[0,4],[0,5]],
+                        [[5,0],[5,1]],
+                        [[5,2],[5,5]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[1,0],[1,4]],
+                        [[1,4],[2,4]],
+                        [[2,1],[4,1]],
+                        [[4,1],[4,2]],
+                        [[4,2],[5,2]],
+                        [[3,4],[3,5]],
+                        [[4,3],[4,4]],
+                        [[4,3],[5,3]]
+                    ],
+                    numbers: [],
+                    openings: [
+                        {side:"top", index:3, direction:"in"},
+                        {side:"bottom", index:1, direction:"out"}
+                    ]
+                },
+                // Maze 19
+                {
+                    size: 4,
+                    frame: false,
+                    comment: `Surely you figured it out by now... if not, you won’t enjoy the rest.`,
+                    segments: [
+                        [[0,1],[0,3]],
+                        [[3,0],[3,3]],
+                        [[0,0],[3,0]],
+                        [[0,3],[2,3]],
+                        [[0,1],[1,1]],
+                        [[2,2],[2,3]]
+                    ],
+                    numbers: [],
+                    openings: [
+                        {side:"top", index:0, direction:"in"},
+                        {side:"right", index:2, direction:"out"}
+                    ]
+                },
+                // Maze 20
+                {
+                    size: 4,
+                    frame: false,
+                    comment: `Surely you figured it out by now... if not, you won’t enjoy the rest.`,
+                    segments: [
+                        [[0,1],[0,3]],
+                        [[3,0],[3,1]],
+                        [[3,2],[3,3]],
+                        [[0,0],[3,0]],
+                        [[0,3],[3,3]],
+                        [[1,1],[3,1]]
+                    ],
+                    numbers: [],
+                    openings: [
+                        {side:"top", index:0, direction:"in"},
+                        {side:"bottom", index:1, direction:"out"}
+                    ]
+                },
+                // Maze 21
+                {
+                    size: 4,
+                    frame: false,
+                    comment: `Surely you figured it out by now... if not, you won’t enjoy the rest.`,
+                    segments: [
+                        [[0,0],[0,1]],
+                        [[0,2],[0,3]],
+                        [[3,0],[3,2]],
+                        [[0,0],[3,0]],
+                        [[0,3],[3,3]],
+                        [[0,1],[1,1]]
+                    ],
+                    numbers: [
+                        {row:2.5, col:0.5, text:"1"}
+                    ],
+                    openings: [
+                        {side:"top", index:1, direction:"in"},
+                        {side:"bottom", index:2, direction:"out"}
+                    ]
+                },
+                // Maze 22
+                {
+                    size: 4,
+                    frame: false,
+                    comment: `Surely you figured it out by now... if not, you won’t enjoy the rest.`,
+                    segments: [
+                        [[0,0],[0,1]],
+                        [[0,2],[0,3]],
+                        [[3,0],[3,1]],
+                        [[3,2],[3,3]],
+                        [[0,0],[3,0]],
+                        [[0,3],[3,3]]
+                    ],
+                    numbers: [
+                        {row:2.5, col:0.5, text:"1"}
+                    ],
+                    openings: [
+                        {side:"top", index:1, direction:"in"},
+                        {side:"bottom", index:1, direction:"out"}
+                    ]
+                },
+                // Maze 23
+                {
+                    size: 6,
+                    frame: false,
+                    comment: `Why is this chapter so long the creator doesn’t have a sense of pacing.`,
+                    segments: [
+                        [[0,0],[0,2]],
+                        [[0,3],[0,5]],
+                        [[5,0],[5,2]],
+                        [[5,3],[5,5]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[1,1],[1,3]],
+                        [[1,1],[2,1]],
+                        [[2,2],[2,3]],
+                        [[2,4],[2,5]],
+                        [[3,1],[3,3]],
+                        [[3,3],[4,3]]
+                    ],
+                    numbers: [
+                        {row:1.5, col:0.5, text:"1"},
+                        {row:3.5, col:4.5, text:"2"}
+                    ],
+                    openings: [
+                        {side:"top", index:2, direction:"in"},
+                        {side:"bottom", index:2, direction:"out"}
+                    ]
+                },
+                // Maze 24
+                {
+                    size: 6,
+                    frame: false,
+                    comment: `Why is this chapter so long the creator doesn’t have a sense of pacing.`,
+                    segments: [
+                        [[0,0],[0,2]],
+                        [[0,3],[0,5]],
+                        [[5,0],[5,2]],
+                        [[5,3],[5,5]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[1,1],[1,3]],
+                        [[1,4],[1,5]],
+                        [[2,2],[3,2]],
+                        [[2,3],[2,4]],
+                        [[3,1],[4,1]],
+                        [[3,4],[3,5]],
+                        [[4,1],[4,2]]
+                    ],
+                    numbers: [
+                        {row:1.5, col:3.5, text:"1"},
+                        {row:3.5, col:1.5, text:"2"}
+                    ],
+                    openings: [
+                        {side:"top", index:2, direction:"in"},
+                        {side:"bottom", index:2, direction:"out"}
+                    ]
+                },
+                // Maze 25
+                {
+                    size: 6,
+                    frame: false,
+                    comment: `Why is this chapter so long the creator doesn’t have a sense of pacing.`,
+                    segments: [
+                        [[0,0],[0,1]],
+                        [[0,2],[0,5]],
+                        [[5,0],[5,4]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[1,2],[1,4]],
+                        [[2,2],[2,4]],
+                        [[3,1],[4,1]],
+                        [[3,3],[3,4]],
+                        [[4,2],[4,3]]
+                    ],
+                    numbers: [
+                        {row:0.5, col:0.5, text:"1"},
+                        {row:2.5, col:2.5, text:"2"},
+                        {row:4.5, col:0.5, text:"3"}
+                    ],
+                    openings: [
+                        {side:"top", index:1, direction:"in"},
+                        {side:"bottom", index:4, direction:"out"}
+                    ]
+                }
+            ],
+            chapter4: [
+                // Maze 26
+                {
+                    size: 6,
+                    frame: false,
+                    comment: `Finally something new to learn.`,
+                    segments: [
+                        [[0,1],[0,5]],
+                        [[5,0],[5,4]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[1,1],[4,1]],
+                        [[2,1],[2,5]],
+                        [[3,3],[3,5]],
+                        [[4,1],[4,3]],
+                        [[4,4],[5,4]]
+                    ],
+                    numbers: [],
+                    openings: [
+                        {side:"top", index:0, direction:"in"},
+                        {side:"bottom", index:4, direction:"out"}
+                    ]
+                },
+                // Maze 27
+                {
+                    size: 6,
+                    frame: false,
+                    comment: `Finally something new to learn.`,
+                    segments: [
+                        [[0,1],[0,5]],
+                        [[5,0],[5,4]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[1,1],[4,1]],
+                        [[2,1],[2,5]],
+                        [[3,3],[3,5]],
+                        [[4,1],[4,3]]
+                    ],
+                    numbers: [],
+                    openings: [
+                        {side:"top", index:0, direction:"in"},
+                        {side:"bottom", index:4, direction:"out"}
+                    ]
+                },
+                // Maze 28
+                {
+                    size: 6,
+                    frame: false,
+                    comment: `Finally something new to learn.`,
+                    segments: [
+                        [[0,1],[0,5]],
+                        [[5,0],[5,4]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[1,0],[1,1]],
+                        [[0,2],[2,2]],
+                        [[2,1],[2,2]],
+                        [[2,3],[2,5]],
+                        [[1,4],[2,4]],
+                        [[3,0],[3,4]],
+                        [[3,2],[4,2]],
+                        [[4,2],[4,3]]
+                    ],
+                    numbers: [],
+                    openings: [
+                        {side:"top", index:0, direction:"in"},
+                        {side:"bottom", index:4, direction:"out"}
+                    ]
+                },
+                // Maze 29
+                {
+                    size: 6,
+                    frame: false,
+                    comment: `Finally something new to learn.`,
+                    segments: [
+                        [[0,1],[0,5]],
+                        [[5,0],[5,4]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[1,0],[1,1]],
+                        [[0,2],[2,2]],
+                        [[2,1],[2,2]],
+                        [[2,3],[2,5]],
+                        [[1,4],[2,4]],
+                        [[3,0],[3,2]],
+                        [[3,2],[4,2]],
+                        [[4,2],[4,3]]
+                    ],
+                    numbers: [],
+                    openings: [
+                        {side:"top", index:0, direction:"in"},
+                        {side:"bottom", index:4, direction:"out"}
+                    ]
+                },
+                // Maze 30
+                {
+                    size: 6,
+                    frame: false,
+                    comment: `Has the rule been true this whole time?`,
+                    segments: [
+                        [[0,0],[0,2]],
+                        [[0,3],[0,5]],
+                        [[5,0],[5,2]],
+                        [[5,3],[5,5]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[0,2],[1,2]],
+                        [[1,2],[1,3]],
+                        [[0,4],[2,4]],
+                        [[2,3],[2,4]],
+                        [[2,1],[4,1]],
+                        [[3,1],[3,2]],
+                        [[4,1],[4,2]],
+                        [[4,2],[5,2]],
+                        [[3,3],[5,3]]
+                    ],
+                    numbers: [],
+                    openings: [
+                        {side:"top", index:2, direction:"in"},
+                        {side:"bottom", index:2, direction:"out"}
+                    ]
+                },
+                // Maze 31
+                {
+                    size: 6,
+                    frame: false,
+                    comment: `Has the rule been true this whole time?`,
+                    segments: [
+                        [[0,0],[0,2]],
+                        [[0,3],[0,5]],
+                        [[5,0],[5,2]],
+                        [[5,3],[5,5]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[0,2],[1,2]],
+                        [[1,2],[1,3]],
+                        [[0,4],[2,4]],
+                        [[2,3],[2,4]],
+                        [[2,1],[4,1]],
+                        [[4,1],[4,2]],
+                        [[4,2],[5,2]],
+                        [[3,3],[5,3]]
+                    ],
+                    numbers: [],
+                    openings: [
+                        {side:"top", index:2, direction:"in"},
+                        {side:"bottom", index:2, direction:"out"}
+                    ]
+                },
+                // Maze 32
+                {
+                    size: 6,
+                    frame: false,
+                    comment: `Has the rule been true this whole time?`,
+                    segments: [
+                        [[0,0],[0,2]],
+                        [[0,3],[0,5]],
+                        [[5,0],[5,2]],
+                        [[5,3],[5,5]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[0,2],[1,2]],
+                        [[1,2],[1,3]],
+                        [[1,4],[1,5]],
+                        [[1,4],[2,4]],
+                        [[2,3],[2,4]],
+                        [[2,1],[4,1]],
+                        [[4,1],[4,2]],
+                        [[4,2],[5,2]],
+                        [[3,3],[5,3]]
+                    ],
+                    numbers: [],
+                    openings: [
+                        {side:"top", index:2, direction:"in"},
+                        {side:"bottom", index:2, direction:"out"}
+                    ]
+                },
+                // Maze 33
+                {
+                    size: 6,
+                    frame: false,
+                    comment: `Ok the creator really wants you to know the rules.`,
+                    segments: [
+                        [[0,0],[0,1]],
+                        [[0,2],[0,5]],
+                        [[5,0],[5,3]],
+                        [[5,4],[5,5]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[0,2],[4,2]],
+                        [[1,1],[1,2]],
+                        [[2,1],[5,1]],
+                        [[1,3],[5,3]],
+                        [[2,4],[2,5]]
+                    ],
+                    numbers: [],
+                    openings: [
+                        {side:"top", index:1, direction:"in"},
+                        {side:"bottom", index:3, direction:"out"}
+                    ]
+                },
+                // Maze 34
+                {
+                    size: 4,
+                    frame: false,
+                    comment: `Ok the creator really wants you to know the rules.`,
+                    segments: [
+                        [[0,0],[0,3]],
+                        [[3,0],[3,3]],
+                        [[0,0],[2,0]],
+                        [[0,3],[2,3]],
+                        [[0,2],[1,2]],
+                        [[1,1],[1,2]]
+                    ],
+                    numbers: [
+                        {row:1.5, col:1.5, text:"1"}
+                    ],
+                    openings: [
+                        {side:"left", index:2, direction:"in"},
+                        {side:"right", index:2, direction:"out"}
+                    ]
+                },
+                // Maze 35
+                {
+                    size: 6,
+                    frame: false,
+                    comment: `Ok the creator really wants you to know the rules.`,
+                    segments: [
+                        [[0,0],[0,2]],
+                        [[0,3],[0,5]],
+                        [[5,0],[5,2]],
+                        [[5,3],[5,5]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[0,1],[4,1]],
+                        [[1,1],[1,3]],
+                        [[1,4],[3,4]],
+                        [[2,3],[2,4]],
+                        [[3,4],[3,5]],
+                        [[3,3],[5,3]]
+                    ],
+                    numbers: [],
+                    openings: [
+                        {side:"top", index:2, direction:"in"},
+                        {side:"bottom", index:2, direction:"out"}
+                    ]
+                },
+                // Maze 36
+                {
+                    size: 4,
+                    frame: false,
+                    comment: `You know, this kind of chapter length imbalance kinda reminds me of that other <span class="yellow">maze</span> game where I spent so long under the desert temple screaming WHERE’S THE REFLECTION or something.`,
+                    segments: [
+                        [[0,0],[0,1]],
+                        [[0,2],[0,3]],
+                        [[3,0],[3,3]],
+                        [[0,0],[3,0]],
+                        [[0,3],[1,3]],
+                        [[2,3],[3,3]]
+                    ],
+                    numbers: [],
+                    openings: [
+                        {side:"top", index:1, direction:"in"},
+                        {side:"right", index:1, direction:"out"}
+                    ]
+                },
+                // Maze 37
+                {
+                    size: 6,
+                    frame: false,
+                    comment: `You know, this kind of chapter length imbalance kinda reminds me of that other <span class="yellow">maze</span> game where I spent so long under the desert temple screaming WHERE’S THE REFLECTION or something.`,
+                    segments: [
+                        [[0,0],[0,1]],
+                        [[0,2],[0,5]],
+                        [[5,0],[5,1]],
+                        [[5,2],[5,5]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[1,1],[1,2]],
+                        [[1,3],[1,5]],
+                        [[2,0],[2,4]],
+                        [[2,2],[3,2]]
+                    ],
+                    numbers: [],
+                    openings: [
+                        {side:"top", index:1, direction:"in"},
+                        {side:"bottom", index:1, direction:"out"}
+                    ]
+                },
+                // Maze 38
+                {
+                    size: 6,
+                    frame: false,
+                    comment: `You know, this kind of chapter length imbalance kinda reminds me of that other <span class="yellow">maze</span> game where I spent so long under the desert temple screaming WHERE’S THE REFLECTION or something.`,
+                    segments: [
+                        [[0,0],[0,3]],
+                        [[0,4],[0,5]],
+                        [[5,0],[5,1]],
+                        [[5,2],[5,5]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+
+                        [[1,1],[1,2]],
+                        [[1,1],[3,1]],
+                        [[2,4],[4,4]],
+                        [[4,1],[5,1]]
+                    ],
+                    numbers: [
+                        {row:1.5, col:1.5, text:"1"},
+                        {row:3.5, col:3.5, text:"2"}
+                    ],
+                    openings: [
+                        {side:"top", index:3, direction:"in"},
+                        {side:"bottom", index:1, direction:"out"}
+                    ]
+                }
+            ],
+            chapter5: [
+                // Maze 39
+                {
+                    size: 8,
+                    frame: false,
+                    comment: 'Oh yeah finally something big and interesting.',
+                    segments: [
+                        [[0,0],[0,4]],
+                        [[0,5],[0,7]],
+                        [[7,0],[7,2]],
+                        [[7,3],[7,7]],
+                        [[0,0],[7,0]],
+                        [[0,7],[7,7]],
+                        [[1,1],[1,3]],
+                        [[1,3],[2,3]],
+                        [[1,5],[1,7]],
+                        [[1,6],[3,6]],
+                        [[0,4],[2,4]],
+                        [[2,0],[2,2]],
+                        [[2,3],[2,5]],
+                        [[3,1],[3,6]],
+                        [[4,0],[4,4]],
+                        [[4,3],[5,3]],
+                        [[5,3],[5,4]],
+                        [[5,4],[6,4]],
+                        [[6,4],[6,6]],
+                        [[3,5],[5,5]],
+                        [[4,6],[5,6]],
+                        [[5,6],[5,7]]
+                    ],
+                    numbers: [],
+                    openings: [
+                        { side: 'top', index: 4, direction: 'in' },
+                        { side: 'bottom', index: 2, direction: 'out' }
+                    ]
+                },
+                // Maze 40
+                {
+                    size: 8,
+                    frame: false,
+                    comment: 'Oh yeah finally something big and interesting.',
+                    segments: [
+                        [[0,0],[0,3]],
+                        [[0,4],[0,7]],
+                        [[7,0],[7,3]],
+                        [[7,4],[7,7]],
+                        [[0,0],[7,0]],
+                        [[0,7],[7,7]],
+                        [[0,2],[1,2]],
+                        [[0,6],[1,6]],
+                        [[1,0],[1,1]],
+                        [[1,1],[2,1]],
+                        [[1,3],[2,3]],
+                        [[2,0],[2,3]],
+                        [[1,4],[1,6]],
+                        [[1,4],[3,4]],
+                        [[3,1],[3,4]],
+                        [[2,5],[2,6]],
+                        [[4,0],[4,3]],
+                        [[5,6],[6,6]],
+                        [[6,5],[6,6]]
+                    ],
+                    numbers: [],
+                    openings: [
+                        { side: 'top', index: 3, direction: 'in' },
+                        { side: 'bottom', index: 3, direction: 'out' }
+                    ]
+                },
+                // Maze 41
+                {
+                    size: 8,
+                    frame: false,
+                    comment: 'Oh yeah finally something big and interesting.',
+                    segments: [
+                        [[0,0],[0,5]],
+                        [[0,6],[0,7]],
+                        [[7,1],[7,7]],
+                        [[0,0],[7,0]],
+                        [[0,7],[7,7]],
+                        [[2,1],[3,1]],
+                        [[4,2],[5,2]],
+                        [[1,3],[6,3]],
+                        [[6,3],[6,4]],
+                        [[6,4],[7,4]],
+                        [[0,4],[4,4]],
+                        [[2,4],[2,5]],
+                        [[1,5],[6,5]],
+                        [[6,5],[6,6]]
+                    ],
+                    numbers: [],
+                    openings: [
+                        { side: 'top', index: 5, direction: 'in' },
+                        { side: 'bottom', index: 0, direction: 'out' }
+                    ]
+                },
+                // Maze 42
+                {
+                    size: 8,
+                    frame: false,
+                    comment: 'According to Chess Board Attributes, something something parity idk.',
+                    segments: [
+                        [[0,0],[0,3]],
+                        [[0,4],[0,7]],
+                        [[7,0],[7,2]],
+                        [[7,4],[7,7]],
+                        [[0,0],[7,0]],
+                        [[0,7],[7,7]],
+                        [[1,4],[1,5]],
+                        [[2,2],[2,3]],
+                        [[3,3],[3,4]],
+                        [[4,3],[4,4]],
+                        [[3,3],[4,3]],
+                        [[3,4],[4,4]],
+                        [[5,3],[5,4]],
+                        [[5,3],[7,3]],
+                        [[5,4],[7,4]],
+                        [[6,1],[6,2]],
+                        [[6,5],[6,6]]
+                    ],
+                    numbers: [
+                        { row: 2.5, col: 0.5, text: '1' },
+                        { row: 2.5, col: 6.5, text: '2' }
+                    ],
+                    openings: [
+                        { side: 'top', index: 3, direction: 'in' },
+                        { side: 'bottom', index: 2, direction: 'out' }
+                    ]
+                },
+                // Maze 43
+                {
+                    size: 8,
+                    frame: false,
+                    comment: 'According to Chess Board Attributes, something something parity idk.',
+                    segments: [
+                        [[0,0],[0,6]],
+                        [[7,0],[7,3]],
+                        [[7,4],[7,7]],
+                        [[0,0],[7,0]],
+                        [[0,7],[7,7]],
+                        [[2,4],[2,6]],
+                        [[3,4],[3,6]],
+                        [[2,4],[3,4]],
+                        [[2,6],[3,6]],
+                        [[4,2],[4,3]],
+                        [[5,0],[5,1]],
+                        [[5,1],[6,1]],
+                        [[6,0],[6,3]],
+                        [[6,3],[7,3]],
+                        [[3,1],[4,1]]
+                    ],
+                    numbers: [
+                        { row: 1.5, col: 5.5, text: '1' },
+                        { row: 3.5, col: 0.5, text: '2' },
+                        { row: 6.5, col: 6.5, text: '3' }
+                    ],
+                    openings: [
+                        { side: 'top', index: 6, direction: 'in' },
+                        { side: 'bottom', index: 3, direction: 'out' }
+                    ]
+                },
+                // Maze 44
+                {
+                    size: 8,
+                    frame: false,
+                    comment: 'According to Chess Board Attributes, something something parity idk.',
+                    segments: [
+                        [[0,0],[0,3]],
+                        [[0,4],[0,7]],
+                        [[7,0],[7,3]],
+                        [[7,4],[7,7]],
+                        [[0,0],[7,0]],
+                        [[0,7],[7,7]],
+                        [[2,2],[2,3]],
+                        [[4,2],[4,3]],
+                        [[2,2],[4,2]],
+                        [[2,3],[4,3]],
+                        [[2,4],[2,5]],
+                        [[2,4],[4,4]],
+                        [[2,5],[3,5]],
+                        [[3,5],[3,6]],
+                        [[3,6],[4,6]],
+                        [[4,4],[4,6]],
+                        [[5,1],[5,3]],
+                        [[5,1],[6,1]],
+                        [[6,1],[6,3]],
+                        [[5,4],[5,6]],
+                        [[5,6],[6,6]],
+                        [[6,4],[6,6]]
+                    ],
+                    numbers: [
+                        { row: 3.5, col: 0.5, text: '1' },
+                        { row: 4.5, col: 3.5, text: '2' }
+                    ],
+                    openings: [
+                        { side: 'top', index: 3, direction: 'in' },
+                        { side: 'bottom', index: 3, direction: 'out' }
+                    ]
+                }
+            ],
+            chapter6: [
+                // Maze 45
+                {
+                    size: 4,
+                    frame: false,
+                    comment: 'Oh great now there’s more numbers.',
+                    segments: [
+                        [[0,0],[0,3]],
+                        [[3,0],[3,3]],
+                        [[1,0],[3,0]],
+                        [[1,3],[3,3]],
+                        [[0,1],[1,1]],
+                        [[1,2],[2,2]]
+                    ],
+                    numbers: [
+                        { row: 2.5, col: 0.5, text: '1' },
+                        { row: 2.5, col: 2.5, text: '2' }
+                    ],
+                    openings: [
+                        { side: 'left', index: 0, direction: 'in' },
+                        { side: 'right', index: 0, direction: 'out' }
+                    ]
+                },
+                // Maze 46
+                {
+                    size: 4,
+                    frame: false,
+                    comment: 'Oh great now there’s more numbers.',
+                    segments: [
+                        [[0,0],[0,3]],
+                        [[3,0],[3,3]],
+                        [[1,0],[3,0]],
+                        [[1,3],[3,3]],
+                        [[0,1],[1,1]],
+                        [[1,2],[2,2]]
+                    ],
+                    numbers: [
+                        { row: 2.5, col: 0.5, text: '1' },
+                        { row: 2.5, col: 1.5, text: '1' },
+                        { row: 2.5, col: 2.5, text: '2' }
+                    ],
+                    openings: [
+                        { side: 'left', index: 0, direction: 'in' },
+                        { side: 'right', index: 0, direction: 'out' }
+                    ]
+                },
+                // Maze 47
+                {
+                    size: 6,
+                    frame: false,
+                    comment: 'Oh great now there’s more numbers.',
+                    segments: [
+                        [[0,1],[0,5]],
+                        [[5,0],[5,4]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[1,1],[2,1]],
+                        [[2,1],[2,2]],
+                        [[1,3],[2,3]]
+                    ],
+                    numbers: [
+                        { row: 0.5, col: 4.5, text: '2' },
+                        { row: 2.5, col: 1.5, text: '1' },
+                        { row: 2.5, col: 3.5, text: '1' },
+                        { row: 4.5, col: 0.5, text: '2' }
+                    ],
+                    openings: [
+                        { side: 'top', index: 0, direction: 'in' },
+                        { side: 'bottom', index: 4, direction: 'out' }
+                    ]
+                },
+                // Maze 48
+                {
+                    size: 6,
+                    frame: false,
+                    comment: 'Well I’m starting to get tired of writing something at the bottom of every page.',
+                    segments: [
+                        [[0,0],[0,5]],
+                        [[5,0],[5,5]],
+                        [[1,0],[5,0]],
+                        [[1,5],[5,5]],
+                        [[1,2],[1,3]],
+                        [[2,1],[4,1]],
+                        [[2,2],[3,2]],
+                        [[1,4],[3,4]],
+                        [[4,2],[4,3]],
+                        [[4,4],[5,4]]
+                    ],
+                    numbers: [
+                        { row: 2.5, col: 0.5, text: '1' },
+                        { row: 2.5, col: 1.5, text: '1' },
+                        { row: 2.5, col: 2.5, text: '2' },
+                        { row: 2.5, col: 3.5, text: '2' },
+                        { row: 2.5, col: 4.5, text: '2' }
+                    ],
+                    openings: [
+                        { side: 'left', index: 0, direction: 'in' },
+                        { side: 'right', index: 0, direction: 'out' }
+                    ]
+                },
+                // Maze 49
+                {
+                    size: 6,
+                    frame: false,
+                    comment: 'Well I’m starting to get tired of writing something at the bottom of every page.',
+                    segments: [
+                        [[0,0],[0,2]],
+                        [[0,3],[0,5]],
+                        [[5,0],[5,2]],
+                        [[5,3],[5,5]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[1,1],[1,3]],
+                        [[1,4],[1,5]],
+                        [[2,2],[2,3]],
+                        [[3,2],[3,3]],
+                        [[4,1],[4,2]]
+                    ],
+                    numbers: [
+                        { row: 1.5, col: 0.5, text: '1' },
+                        { row: 2.5, col: 2.5, text: '1' },
+                        { row: 3.5, col: 4.5, text: '1' },
+                        { row: 4.5, col: 0.5, text: '2' }
+                    ],
+                    openings: [
+                        { side: 'top', index: 2, direction: 'in' },
+                        { side: 'bottom', index: 2, direction: 'out' }
+                    ]
+                },
+                // Maze 50
+                {
+                    size: 6,
+                    frame: false,
+                    comment: 'Well I’m starting to get tired of writing something at the bottom of every page.',
+                    segments: [
+                        [[0,0],[0,2]],
+                        [[0,3],[0,5]],
+                        [[5,0],[5,2]],
+                        [[5,3],[5,5]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[1,1],[1,3]],
+                        [[2,1],[3,1]],
+                        [[2,2],[3,2]],
+                        [[2,3],[3,3]]
+                    ],
+                    numbers: [
+                        { row: 1.5, col: 0.5, text: '1' },
+                        { row: 2.5, col: 2.5, text: '1' },
+                        { row: 3.5, col: 4.5, text: '1' },
+                        { row: 4.5, col: 0.5, text: '2' }
+                    ],
+                    openings: [
+                        { side: 'top', index: 2, direction: 'in' },
+                        { side: 'bottom', index: 2, direction: 'out' }
+                    ]
+                },
+                // Maze 51
+                {
+                    size: 6,
+                    frame: false,
+                    comment: 'And you’re (probably) getting tired of solving these.',
+                    segments: [
+                        [[0,1],[0,5]],
+                        [[5,0],[5,3]],
+                        [[5,4],[5,5]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[2,2],[2,3]]
+                    ],
+                    numbers: [
+                        { row: 1.5, col: 3.5, text: '1' },
+                        { row: 2.5, col: 0.5, text: '1' },
+                        { row: 2.5, col: 2.5, text: '2' },
+                        { row: 3.5, col: 1.5, text: '2' },
+                        { row: 3.5, col: 3.5, text: '1' },
+                        { row: 4.5, col: 0.5, text: '3' }
+                    ],
+                    openings: [
+                        { side: 'top', index: 0, direction: 'in' },
+                        { side: 'bottom', index: 3, direction: 'out' }
+                    ]
+                },
+                // Maze 52
+                {
+                    size: 8,
+                    frame: false,
+                    comment: 'And you’re (probably) getting tired of solving these.',
+                    segments: [
+                        [[0,0],[0,3]],
+                        [[0,4],[0,7]],
+                        [[7,0],[7,3]],
+                        [[7,4],[7,7]],
+                        [[0,0],[7,0]],
+                        [[0,7],[7,7]],
+                        [[0,2],[1,2]],
+                        [[1,3],[2,3]],
+                        [[1,4],[1,5]],
+                        [[2,2],[3,2]],
+                        [[6,2],[6,3]],
+                        [[6,4],[7,4]]
+                    ],
+                    numbers: [
+                        { row: 2.5, col: 1.5, text: '2' },
+                        { row: 2.5, col: 5.5, text: '1' },
+                        { row: 3.5, col: 3.5, text: '1' },
+                        { row: 4.5, col: 1.5, text: '1' },
+                        { row: 4.5, col: 5.5, text: '2' }
+                    ],
+                    openings: [
+                        { side: 'top', index: 3, direction: 'in' },
+                        { side: 'bottom', index: 3, direction: 'out' }
+                    ]
+                }
+            ],
+            chapter7: [
+                // Maze 53
+                {
+                    size: 4,
+                    frame: false,
+                    comment: 'Now let the real <span class="red">maze</span> puzzles begin.',
+                    segments: [
+                        [[0,1],[0,3]],
+                        [[3,0],[3,3]],
+                        [[0,0],[3,0]],
+                        [[0,3],[2,3]],
+                        [[0,1],[2,1]],
+                        [[1,1],[1,2]],
+                        [[1,2],[2,2]],
+                        [[2,2],[2,3]]
+                    ],
+                    numbers: [
+                        { row: 1.5, col: 1.5, text: '1' }
+                    ],
+                    openings: [
+                        { side: 'top', index: 0, direction: 'in' },
+                        { side: 'right', index: 2, direction: 'out' }
+                    ]
+                },
+                // Maze 54
+                {
+                    size: 6,
+                    frame: false,
+                    comment: 'Now let the real <span class="red">maze</span> puzzles begin.',
+                    segments: [
+                        [[0,0],[0,2]],
+                        [[0,3],[0,5]],
+                        [[5,0],[5,2]],
+                        [[5,3],[5,5]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[0,2],[1,2]],
+                        [[0,3],[1,3]],
+                        [[0,4],[3,4]],
+                        [[2,0],[2,1]],
+                        [[2,2],[2,4]],
+                        [[3,2],[3,3]],
+                        [[3,2],[5,2]],
+                        [[4,3],[5,3]]
+                    ],
+                    numbers: [
+                        { row: 1.5, col: 0.5, text: '1' },
+                        { row: 4.5, col: 1.5, text: '2' },
+                        { row: 1.5, col: 4.5, text: '3' }
+                    ],
+                    openings: [
+                        { side: 'top', index: 2, direction: 'in' },
+                        { side: 'bottom', index: 2, direction: 'out' }
+                    ]
+                },
+                // Maze 55
+                {
+                    size: 6,
+                    frame: false,
+                    comment: 'Now let the real <span class="red">maze</span> puzzles begin.',
+                    segments: [
+                        [[0,0],[0,2]],
+                        [[0,3],[0,5]],
+                        [[5,0],[5,2]],
+                        [[5,3],[5,5]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[0,1],[1,1]],
+                        [[1,1],[1,2]],
+                        [[0,3],[2,3]],
+                        [[2,0],[2,2]],
+                        [[3,2],[5,2]],
+                        [[3,3],[5,3]],
+                        [[4,1],[4,2]]
+                    ],
+                    numbers: [
+                        { row: 0.5, col: 1.5, text: '1' },
+                        { row: 1.5, col: 0.5, text: '2' },
+                        { row: 1.5, col: 4.5, text: '3' },
+                        { row: 4.5, col: 4.5, text: '4' },
+                        { row: 4.5, col: 1.5, text: '5' }
+                    ],
+                    openings: [
+                        { side: 'top', index: 2, direction: 'in' },
+                        { side: 'bottom', index: 2, direction: 'out' }
+                    ]
+                },
+                // Maze 56
+                {
+                    size: 4,
+                    frame: false,
+                    comment: 'Having to abandon what you created and trusted is a difficult thing.',
+                    segments: [
+                        [[0,1],[0,3]],
+                        [[3,0],[3,3]],
+                        [[0,0],[3,0]],
+                        [[0,3],[2,3]],
+                        [[1,1],[2,1]],
+                        [[2,1],[2,2]]
+                    ],
+                    numbers: [
+                        { row: 0.5, col: 1.5, text: '1' },
+                        { row: 1.5, col: 1.5, text: '2' }
+                    ],
+                    openings: [
+                        { side: 'top', index: 0, direction: 'in' },
+                        { side: 'right', index: 2, direction: 'out' }
+                    ]
+                },
+                // Maze 57
+                {
+                    size: 6,
+                    frame: false,
+                    comment: 'Having to abandon what you created and trusted is a difficult thing.',
+                    segments: [
+                        [[0,0],[0,2]],
+                        [[0,3],[0,5]],
+                        [[5,0],[5,2]],
+                        [[5,3],[5,5]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[0,2],[1,2]],
+                        [[1,1],[2,1]],
+                        [[2,1],[2,2]],
+                        [[1,3],[2,3]],
+                        [[2,3],[2,4]],
+                        [[2,4],[3,4]],
+                        [[3,2],[5,2]],
+                        [[3,3],[4,3]],
+                        [[4,3],[4,4]]
+                    ],
+                    numbers: [
+                        { row: 0.5, col: 4.5, text: '2' },
+                        { row: 3.5, col: 1.5, text: '1' }
+                    ],
+                    openings: [
+                        { side: 'top', index: 2, direction: 'in' },
+                        { side: 'bottom', index: 2, direction: 'out' }
+                    ]
+                },
+                // Maze 58
+                {
+                    size: 6,
+                    frame: false,
+                    comment: 'Having to abandon what you created and trusted is a difficult thing.',
+                    segments: [
+                        [[0,0],[0,2]],
+                        [[0,3],[0,5]],
+                        [[5,0],[5,2]],
+                        [[5,3],[5,5]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[1,1],[2,1]],
+                        [[1,2],[4,2]],
+                        [[1,3],[4,3]],
+                        [[2,4],[3,4]]
+                    ],
+                    numbers: [
+                        { row: 1.5, col: 2.5, text: '1' },
+                        { row: 2.5, col: 2.5, text: '2' },
+                        { row: 3.5, col: 2.5, text: '1' }
+                    ],
+                    openings: [
+                        { side: 'top', index: 2, direction: 'in' },
+                        { side: 'bottom', index: 2, direction: 'out' }
+                    ]
+                },
+                // Maze 59
+                {
+                    size: 6,
+                    frame: false,
+                    comment: 'It’s a great time to go BACK to the start and solve all the previous puzzles CORRECTLY.',
+                    segments: [
+                        [[0,1],[0,5]],
+                        [[5,0],[5,4]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[1,1],[1,2]],
+                        [[1,2],[2,2]],
+                        [[2,1],[2,2]],
+                        [[1,1],[2,1]],
+                        [[2,4],[4,4]]
+                    ],
+                    numbers: [
+                        { row: 0.5, col: 1.5, text: '1' },
+                        { row: 4.5, col: 1.5, text: '2' }
+                    ],
+                    openings: [
+                        { side: 'top', index: 0, direction: 'in' },
+                        { side: 'bottom', index: 4, direction: 'out' }
+                    ]
+                },
+                // Maze 60
+                {
+                    size: 6,
+                    frame: false,
+                    comment: 'It’s a great time to go BACK to the start and solve all the previous puzzles CORRECTLY.',
+                    segments: [
+                        [[0,1],[0,5]],
+                        [[5,0],[5,4]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[1,3],[2,3]]
+                    ],
+                    numbers: [
+                        { row: 1.5, col: 0.5, text: '1' },
+                        { row: 3.5, col: 4.5, text: '1' }
+                    ],
+                    openings: [
+                        { side: 'top', index: 0, direction: 'in' },
+                        { side: 'bottom', index: 4, direction: 'out' }
+                    ]
+                },
+                // Maze 61
+                {
+                    size: 6,
+                    frame: false,
+                    comment: 'It’s a great time to go BACK to the start and solve all the previous puzzles CORRECTLY.',
+                    segments: [
+                        [[0,1],[0,5]],
+                        [[5,0],[5,4]],
+                        [[0,0],[5,0]],
+                        [[0,5],[5,5]],
+                        [[2,3],[3,3]]
+                    ],
+                    numbers: [
+                        { row: 1.5, col: 4.5, text: '2' },
+                        { row: 4.5, col: 3.5, text: '1' }
+                    ],
+                    openings: [
+                        { side: 'top', index: 0, direction: 'in' },
+                        { side: 'bottom', index: 4, direction: 'out' }
+                    ]
+                }
+            ],
+            chapter8: [
+                // Maze 62
+                {
+                    size: 10,
+                    frame: false,
+                    comment: 'This is a final challenge for those who solved all the previous mazes correctly.',
+                    segments: [
+                        [[0,1],[0,9]],
+                        [[9,0],[9,7]],
+                        [[9,8],[9,9]],
+                        [[0,0],[9,0]],
+                        [[0,9],[9,9]],
+                        [[0,2],[2,2]],
+                        [[1,1],[1,2]],
+                        [[1,1],[2,1]],
+                        [[1,4],[2,4]],
+                        [[0,5],[2,5]],
+                        [[1,7],[2,7]],
+                        [[0,8],[2,8]],
+                        [[5,8],[6,8]]
+                    ],
+                    numbers: [
+                        { row: 0.5, col: 4.5, text: '1' },
+                        { row: 0.5, col: 7.5, text: '1' }
+                    ],
+                    openings: [
+                        { side: 'top', index: 0, direction: 'in' },
+                        { side: 'bottom', index: 7, direction: 'out' }
+                    ]
+                },
+                // Maze 63
+                {
+                    size: 10,
+                    frame: false,
+                    comment: 'It was a fun little journey we had.',
+                    segments: [
+                        [[0,1],[0,9]],
+                        [[9,0],[9,8]],
+                        [[0,0],[9,0]],
+                        [[0,9],[9,9]],
+                        [[1,1],[1,2]],
+                        [[1,1],[2,1]],
+                        [[2,1],[2,2]],
+                        [[1,3],[1,4]],
+                        [[1,3],[2,3]],
+                        [[1,4],[2,4]],
+                        [[1,5],[2,5]],
+                        [[1,6],[2,6]],
+                        [[2,5],[2,6]],
+                        [[1,7],[1,8]],
+                        [[1,7],[2,7]],
+                        [[2,7],[2,8]],
+                        [[3,1],[3,2]],
+                        [[3,1],[4,1]],
+                        [[3,2],[4,2]],
+                        [[3,3],[3,4]],
+                        [[3,3],[4,3]],
+                        [[4,3],[4,4]],
+                        [[3,5],[3,6]],
+                        [[3,5],[4,5]],
+                        [[3,6],[4,6]],
+                        [[3,7],[4,7]],
+                        [[3,8],[4,8]],
+                        [[4,7],[4,8]],
+                        [[5,1],[6,1]],
+                        [[5,2],[6,2]],
+                        [[6,1],[6,2]],
+                        [[5,3],[5,4]],
+                        [[5,3],[6,3]],
+                        [[6,3],[6,4]],
+                        [[5,5],[5,6]],
+                        [[5,6],[6,6]],
+                        [[6,5],[6,6]],
+                        [[5,7],[5,8]],
+                        [[5,8],[6,8]],
+                        [[6,7],[6,8]],
+                        [[7,1],[7,2]],
+                        [[7,2],[8,2]],
+                        [[8,1],[8,2]],
+                        [[7,3],[8,3]],
+                        [[7,4],[8,4]],
+                        [[8,3],[8,4]],
+                        [[7,5],[7,6]],
+                        [[7,5],[8,5]],
+                        [[7,6],[8,6]],
+                        [[7,7],[7,8]],
+                        [[7,8],[8,8]],
+                        [[8,7],[8,8]]
+                    ],
+                    numbers: [],
+                    openings: [
+                        { side: 'top', index: 0, direction: 'in' },
+                        { side: 'bottom', index: 8, direction: 'out' }
+                    ]
+                },
+                // Maze 64
+                {
+                    size: 10,
+                    frame: false,
+                    comment: 'Thanks for playing my <span class="red">Maze</span> Of Deception puzzle book.',
+                    segments: [
+                        [[0,1],[0,8]],
+                        [[9,0],[9,9]],
+                        [[0,0],[9,0]],
+                        [[0,9],[9,9]],
+                        [[0,4],[8,4]],
+                        [[0,5],[8,5]],
+                        [[8,5],[8,6]],
+                        [[1,1],[1,2]],
+                        [[1,3],[1,4]],
+                        [[2,0],[2,1]],
+                        [[3,1],[3,4]],
+                        [[4,1],[4,2]],
+                        [[5,0],[5,1]],
+                        [[5,3],[5,4]],
+                        [[6,1],[6,4]],
+                        [[1,8],[1,9]],
+                        [[2,6],[2,7]],
+                        [[3,5],[3,8]],
+                        [[4,6],[4,7]],
+                        [[4,8],[4,9]],
+                        [[5,7],[5,8]],
+                        [[6,5],[6,8]]
+                    ],
+                    numbers: [
+                        { row: 6.5, col: 2.5, text: '1' },
+                        { row: 6.5, col: 5.5, text: '2' }
+                    ],
+                    openings: [
+                        { side: 'top', index: 0, direction: 'in' },
+                        { side: 'top', index: 8, direction: 'out' }
+                    ]
+                }
+            ]
+        };
+
+        const SVG_NS = 'http://www.w3.org/2000/svg';
+        function renderMaze(maze, label = 'Maze') {
+            const config = {
+                ...mazeStyle,
+                ...maze,
+                colors: { ...mazeStyle.colors, ...(maze.colors || {}) }
+            };
+            const { size, cellSize: u, strokeWidth: w, colors } = config;
+            const pad = u * 0.85;
+            const length = (size - 1) * u;
+            const total = length + pad * 2;
+            const x = col => pad + col * u;
+            const y = row => pad + row * u;
+            const svg = document.createElementNS(SVG_NS, 'svg');
+            svg.classList.add('maze-svg');
+            svg.setAttribute('viewBox', `0 0 ${total} ${total}`);
+            svg.setAttribute('xmlns', SVG_NS);
+            svg.setAttribute('role', 'img');
+            svg.setAttribute('aria-label', label);
+            svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+            function add(tag, attrs, styles = {}, text) {
+                const el = document.createElementNS(SVG_NS, tag);
+                for (const [name, value] of Object.entries(attrs)) {
+                    el.setAttribute(name, String(value));
+                }
+                for (const [name, value] of Object.entries(styles)) {
+                    el.style.setProperty(name, String(value));
+                }
+                if (text !== undefined) el.textContent = String(text);
+                svg.append(el);
+                return el;
+            }
+            const used = new Set();
+            function markBetween(a, b) {
+                const [r1, c1] = a;
+                const [r2, c2] = b;
+                if (r1 !== r2 && c1 !== c2) {
+                    throw new Error(`A maze segment must be horizontal or vertical: ${a} → ${b}`);
+                }
+                const steps = Math.max(Math.abs(r2 - r1), Math.abs(c2 - c1));
+                for (let i = 0; i <= steps; i++) {
+                    used.add(`${r1 + Math.sign(r2-r1)*i},${c1 + Math.sign(c2-c1)*i}`);
+                }
+            }
+            function line(a, b) {
+                markBetween(a, b);
+                add('line', {
+                    x1: x(a[1]), y1: y(a[0]),
+                    x2: x(b[1]), y2: y(b[0]),
+                    'stroke-width': w,
+                    'stroke-linecap': 'square'
+                }, { stroke: colors.line });
+            }
+            for (const [a, b] of config.segments) line(a, b);
+            if (config.frame !== false) {
+                const openings = config.openings || [];
+                const sides = {
+                    top: i => [[0,i],[0,i+1]],
+                    bottom: i => [[size-1,i],[size-1,i+1]],
+                    left: i => [[i,0],[i+1,0]],
+                    right: i => [[i,size-1],[i+1,size-1]]
+                };
+                for (const [side, build] of Object.entries(sides)) {
+                    for (let i = 0; i < size - 1; i++) {
+                        if (!openings.some(o => o.side === side && o.index === i)) {
+                            line(...build(i));
+                        }
+                    }
+                }
+            }
+            for (let row = 0; row < size; row++) {
+                for (let col = 0; col < size; col++) {
+                    if (!used.has(`${row},${col}`)) {
+                        add('circle', {
+                            cx: x(col), cy: y(row),
+                            r: config.dotRadius
+                        }, { fill: colors.dot });
+                    }
+                }
+            }
+            for (const item of config.numbers || []) {
+                add('text', {
+                    x: x(item.col), y: y(item.row),
+                    'text-anchor': 'middle', 'dominant-baseline': 'central',
+                    'font-size': u * .53, 'font-weight': 'bold'
+                }, { fill: colors.number }, item.text);
+            }
+            for (const item of config.openings || []) {
+                const at = (item.index + 0.5) * u;
+                const outer = u * 0.47;
+                let px, py, vx, vy;
+                switch (item.side) {
+                    case 'top':    px = pad + at; py = y(0) - outer; vx = 0; vy = 1; break;
+                    case 'bottom': px = pad + at; py = y(size-1) + outer; vx = 0; vy = -1; break;
+                    case 'left':   px = x(0) - outer; py = pad + at; vx = 1; vy = 0; break;
+                    case 'right':  px = x(size-1) + outer; py = pad + at; vx = -1; vy = 0; break;
+                    default: throw new Error(`Unknown opening side: ${item.side}`);
+                }
+                if (item.direction === 'out') { vx = -vx; vy = -vy; }
+                const halfHeight = u * 0.20;
+                const halfWidth = u * 0.34;
+                const tip = [px + vx*halfHeight, py + vy*halfHeight];
+                const base = [px - vx*halfHeight, py - vy*halfHeight];
+                const left = [base[0] - vy*halfWidth, base[1] + vx*halfWidth];
+                const right = [base[0] + vy*halfWidth, base[1] - vx*halfWidth];
+                add('polygon', {
+                    points: [tip,left,right].map(p => p.join(',')).join(' ')
+                }, { fill: colors.arrow });
+            }
+
+            const drawingLayer = document.createElementNS(SVG_NS, 'g');
+            drawingLayer.classList.add('drawing-layer');
+            drawingLayer.setAttribute('fill', 'none');
+            svg.append(drawingLayer);
+            const hitArea = document.createElementNS(SVG_NS, 'rect');
+            hitArea.setAttribute('x', '0');
+            hitArea.setAttribute('y', '0');
+            hitArea.setAttribute('width', total);
+            hitArea.setAttribute('height', total);
+            hitArea.setAttribute('fill', 'transparent');
+            hitArea.setAttribute('pointer-events', 'all');
+            hitArea.classList.add('drawing-hit-area');
+            svg.append(hitArea);
+            return svg;
+        }
+        const drawingStyle = {
+            color: 'var(--yellow)',
+            width: 3.4,
+            eraserRadius: 10,
+            sampleStep: 2.5
+        };
+        const DRAWING_STORAGE_KEY = 'maze-of-deception:drawings:v1';
+        function loadDrawings() {
+            try {
+                const data = JSON.parse(localStorage.getItem(DRAWING_STORAGE_KEY) || '{}');
+                return data && typeof data === 'object' && !Array.isArray(data) ? data : {};
+            } catch (error) {
+                console.warn('Maze drawings could not be loaded:', error);
+                return {};
+            }
+        }
+        const drawings = loadDrawings();
+        function saveDrawings() {
+            try {
+                localStorage.setItem(DRAWING_STORAGE_KEY, JSON.stringify(drawings));
+                const status = document.querySelector('.drawing-help');
+                if (status) status.textContent = 'Saved in this browser';
+                return true;
+            } catch (error) {
+                console.warn('Maze drawings could not be saved:', error);
+                const status = document.querySelector('.drawing-help');
+                if (status) status.textContent = 'Not saved — browser storage unavailable';
+                return false;
+            }
+        }
+        function getDrawing(key) {
+            if (!Array.isArray(drawings[key])) drawings[key] = [];
+            return drawings[key];
+        }
+        function renderDrawing(svg, key) {
+            const layer = svg.querySelector('.drawing-layer');
+            if (!layer) return;
+            const paths = getDrawing(key).map(stroke => {
+                if (!stroke || !Array.isArray(stroke.points) || !stroke.points.length) return null;
+                const coords = stroke.points.filter(p =>
+                    Array.isArray(p) && p.length === 2 &&
+                    Number.isFinite(p[0]) && Number.isFinite(p[1])
+                );
+                if (!coords.length) return null;
+                const path = document.createElementNS(SVG_NS, 'path');
+                const d = coords.map((p, i) => `${i ? 'L' : 'M'}${p[0]} ${p[1]}`).join(' ');
+                // 单击产生一个圆点（SVG 的单点 path 本身不会显色）。
+                path.setAttribute('d', coords.length === 1
+                    ? `${d} l 0.01 0.01`
+                    : d);
+                path.setAttribute('stroke-width', drawingStyle.width);
+                path.setAttribute('stroke-linecap', 'round');
+                path.setAttribute('stroke-linejoin', 'round');
+                path.style.stroke = drawingStyle.color;
+                return path;
+            }).filter(Boolean);
+            layer.replaceChildren(...paths);
+        }
+        function clientToMaze(svg, event) {
+            const point = svg.createSVGPoint();
+            point.x = event.clientX;
+            point.y = event.clientY;
+            const matrix = svg.getScreenCTM();
+            return matrix ? point.matrixTransform(matrix.inverse()) : null;
+        }
+        function forEachStep(start, end, step, callback) {
+            const distance = Math.hypot(end.x - start.x, end.y - start.y);
+            const count = Math.max(1, Math.ceil(distance / step));
+            for (let i = 1; i <= count; i++) {
+                const t = i / count;
+                callback({
+                    x: start.x + (end.x - start.x) * t,
+                    y: start.y + (end.y - start.y) * t
+                });
+            }
+        }
+        function eraseAt(key, point) {
+            const radius2 = drawingStyle.eraserRadius ** 2;
+            let modified = false;
+            const result = [];
+            for (const stroke of getDrawing(key)) {
+                if (!stroke || !Array.isArray(stroke.points)) continue;
+                let current = [];
+                let erased = false;
+                const fragments = [];
+                for (const p of stroke.points) {
+                    const hit = (p[0] - point.x) ** 2 + (p[1] - point.y) ** 2 <= radius2;
+                    if (hit) {
+                        erased = true;
+                        if (current.length) fragments.push({ points: current });
+                        current = [];
+                    } else {
+                        current.push(p);
+                    }
+                }
+                if (current.length) fragments.push({ points: current });
+                if (erased) {
+                    modified = true;
+                    result.push(...fragments);
+                } else {
+                    result.push(stroke);
+                }
+            }
+            if (modified) drawings[key] = result;
+            return modified;
+        }
+        function enableMazeDrawing(svg, key, getTool, sync) {
+            let pointerId = null;
+            let last = null;
+            let currentStroke = null;
+            let changed = false;
+            svg.addEventListener('pointerdown', event => {
+                if (pointerId !== null || (event.pointerType === 'mouse' && event.button !== 0)) return;
+                const point = clientToMaze(svg, event);
+                if (!point) return;
+                event.preventDefault();
+                pointerId = event.pointerId;
+                svg.setPointerCapture(pointerId);
+                last = point;
+                changed = false;
+                if (getTool() === 'pen') {
+                    currentStroke = { points: [[+point.x.toFixed(2), +point.y.toFixed(2)]] };
+                    getDrawing(key).push(currentStroke);
+                    changed = true;
+                } else {
+                    currentStroke = null;
+                    changed = eraseAt(key, point);
+                }
+                sync();
+            });
+            svg.addEventListener('pointermove', event => {
+                if (event.pointerId !== pointerId || !last) return;
+                const point = clientToMaze(svg, event);
+                if (!point) return;
+                event.preventDefault();
+                if (currentStroke) {
+                    forEachStep(last, point, drawingStyle.sampleStep, p => {
+                        const prev = currentStroke.points.at(-1);
+                        if (Math.hypot(p.x - prev[0], p.y - prev[1]) > 0.25) {
+                            currentStroke.points.push([+p.x.toFixed(2), +p.y.toFixed(2)]);
+                        }
+                    });
+                    changed = true;
+                    sync();
+                } else {
+                    let erased = false;
+                    forEachStep(last, point, drawingStyle.eraserRadius / 2, p => {
+                        erased = eraseAt(key, p) || erased;
+                    });
+                    if (erased) {
+                        changed = true;
+                        sync();
+                    }
+                }
+                last = point;
+            });
+            function finish(event) {
+                if (event.pointerId !== pointerId) return;
+                if (svg.hasPointerCapture(pointerId)) svg.releasePointerCapture(pointerId);
+                if (changed) saveDrawings();
+                pointerId = null;
+                currentStroke = null;
+                last = null;
+                changed = false;
+            }
+            svg.addEventListener('pointerup', finish);
+            svg.addEventListener('pointercancel', finish);
+            svg.addEventListener('lostpointercapture', finish);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            for (const [chapterId, mazeList] of Object.entries(mazeChapters)) {
+                const list = document.querySelector(`#${chapterId} .list`);
+                if (!list) continue;
+                list.replaceChildren(...mazeList.map((maze, i) => {
+                    const svg = renderMaze(maze, `Maze ${String(i + 1).padStart(2, '0')}`);
+                    renderDrawing(svg, `${chapterId}:${i}`);
+                    return svg;
+                }));
+            }
+
+            document.querySelectorAll('.content').forEach(content => {
+                const list = content.querySelector('.list');
+                const preview = content.querySelector('.preview');
+                if (!list || !preview) return;
+                const mazes = [...list.children].filter(element => element.matches('svg, img'));
+                const chapterId = content.closest('section').id;
+                const chapterMazes = mazeChapters[chapterId] || [];
+                const commentElement =
+                    content.closest('section').querySelector('.comment');
+                const toolbar = content.querySelector('.drawing-tools');
+                let activeIndex = 0;
+                let activeSvg = null;
+                let activeTool = 'pen';
+                const toolButtons = toolbar ? [...toolbar.querySelectorAll('[data-tool]')] : [];
+                toolButtons.forEach(button => button.addEventListener('click', () => {
+                    activeTool = button.dataset.tool;
+                    toolButtons.forEach(item => {
+                        const selected = item === button;
+                        item.classList.toggle('active', selected);
+                        item.setAttribute('aria-pressed', String(selected));
+                    });
+                    preview.classList.toggle('eraser-mode', activeTool === 'eraser');
+                }));
+
+                mazes.forEach((maze, index) => {
+                    const button = document.createElement('button');
+                    button.type = 'button';
+                    button.className = 'maze-item';
+                    button.setAttribute('aria-label', `Maze ${index + 1}`);
+                    button.setAttribute('aria-pressed', 'false');
+                    maze.replaceWith(button);
+                    button.appendChild(maze);
+                    button.addEventListener('click', () => selectMaze(index));
+                });
+                function syncDrawing() {
+                    const key = `${chapterId}:${activeIndex}`;
+                    if (activeSvg) renderDrawing(activeSvg, key);
+                    if (mazes[activeIndex]?.matches('svg')) renderDrawing(mazes[activeIndex], key);
+                }
+
+                function selectMaze(index) {
+                    activeIndex = index;
+                    if (commentElement && chapterMazes[index]) {
+                        commentElement.innerHTML =
+                            chapterMazes[index].comment ?? '';
+                    }
+                    const clone = mazes[index].cloneNode(true);
+                    preview.replaceChildren(clone);
+                    activeSvg = clone;
+                    list.querySelectorAll('.maze-item').forEach((button, i) => {
+                        const active = i === index;
+                        button.classList.toggle('active', active);
+                        button.setAttribute('aria-pressed', String(active));
+                    });
+                    if (toolbar && clone.matches('svg')) {
+                        enableMazeDrawing(clone, `${chapterId}:${index}`, () => activeTool, syncDrawing);
+                    }
+                    if (typeof clone.animate === 'function') {
+                        clone.animate([
+                            { opacity: 0, transform: 'scale(0.95)' },
+                            { opacity: 1, transform: 'scale(1)' }
+                        ], { duration: 350, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' });
+                    }
+                }
+                if (mazes.length > 0) selectMaze(0);
+            });
+        });
+    </script>
+</head>
+
+<body>
+<section id="cover">
+    <h1>
+        <span class="red">MAZE</span> OF DECEPTION
+    </h1>
+    <h2>
+        A COLLECTION OF 64 <span class="red">MAZE</span>S I MADE
+    </h2>
+    <h4>
+        ALSO IT’S A RULE DISCOVERY PUZZLE <span style="text-decoration: line-through">GAME</span> BOOK
+    </h4>
+    <div class="rules">
+        <pre>
+            -   <span class="bold">A</span>ll rules are consistent.
+            -   <span class="bold">E</span>ach puzzle has only one solution. <span class="sub">I think</span>
+            -   <span class="bold">I</span>f you’re stuck in any puzzle, you get no hint.
+            -   <span class="bold">O</span>f course you have to solve the puzzles in order.
+            -   <span class="bold">U</span>hh this sentence is just here for the fifth english vowel.
+            -   <span class="bold">Y</span>es.
+        </pre>
+    </div>
+    <h4>
+         BY <span class="bold">Aki Arasaki</span>
+    </h4>
+    <h4>
+        PUZZLES MADE BY <span class="bold">ZEROHUNDRED AMATEURPROCOAL</span>
+    </h4>
+    <p>
+        <span class="sub">don’t ask why my username became so long</span>
+    </p>
+</section>
+<section id="chapter1">
+    <div class="title">Chapter 1</div>
+    <div class="content">
+        <div class="list"></div>
+        <div class="preview-pane">
+            <div class="preview" aria-label="Draw on the selected maze"></div>
+            <div class="drawing-tools" role="toolbar" aria-label="Maze drawing tools">
+                <button type="button" data-tool="pen" class="active" aria-pressed="true" title="Draw on the maze">✎ Pen</button>
+                <button type="button" data-tool="eraser" aria-pressed="false" title="Erase your drawing">▱ Eraser</button>
+            </div>
+        </div>
+    </div>
+    <div class="comment"></div>
+</section>
+<section id="chapter2">
+    <div class="title">Chapter 2</div>
+    <div class="content">
+        <div class="list"></div>
+        <div class="preview-pane">
+            <div class="preview" aria-label="Draw on the selected maze"></div>
+            <div class="drawing-tools" role="toolbar" aria-label="Maze drawing tools">
+                <button type="button" data-tool="pen" class="active" aria-pressed="true" title="Draw on the maze">✎ Pen</button>
+                <button type="button" data-tool="eraser" aria-pressed="false" title="Erase your drawing">▱ Eraser</button>
+            </div>
+        </div>
+    </div>
+    <div class="comment"></div>
+</section>
+<section id="chapter3">
+    <div class="title">Chapter 3</div>
+    <div class="content">
+        <div class="list"></div>
+        <div class="preview-pane">
+            <div class="preview" aria-label="Draw on the selected maze"></div>
+            <div class="drawing-tools" role="toolbar" aria-label="Maze drawing tools">
+                <button type="button" data-tool="pen" class="active" aria-pressed="true" title="Draw on the maze">✎ Pen</button>
+                <button type="button" data-tool="eraser" aria-pressed="false" title="Erase your drawing">▱ Eraser</button>
+            </div>
+        </div>
+    </div>
+    <div class="comment"></div>
+</section>
+<section id="chapter4">
+    <div class="title">Chapter 4</div>
+    <div class="content">
+        <div class="list"></div>
+        <div class="preview-pane">
+            <div class="preview" aria-label="Draw on the selected maze"></div>
+            <div class="drawing-tools" role="toolbar" aria-label="Maze drawing tools">
+                <button type="button" data-tool="pen" class="active" aria-pressed="true" title="Draw on the maze">✎ Pen</button>
+                <button type="button" data-tool="eraser" aria-pressed="false" title="Erase your drawing">▱ Eraser</button>
+            </div>
+        </div>
+    </div>
+    <div class="comment"></div>
+</section>
+<section id="chapter5">
+    <div class="title">Chapter 5</div>
+    <div class="content">
+        <div class="list"></div>
+        <div class="preview-pane">
+            <div class="preview" aria-label="Draw on the selected maze"></div>
+            <div class="drawing-tools" role="toolbar" aria-label="Maze drawing tools">
+                <button type="button" data-tool="pen" class="active" aria-pressed="true" title="Draw on the maze">✎ Pen</button>
+                <button type="button" data-tool="eraser" aria-pressed="false" title="Erase your drawing">▱ Eraser</button>
+            </div>
+        </div>
+    </div>
+    <div class="comment"></div>
+</section>
+<section id="chapter6">
+    <div class="title">Chapter 6</div>
+    <div class="content">
+        <div class="list"></div>
+        <div class="preview-pane">
+            <div class="preview" aria-label="Draw on the selected maze"></div>
+            <div class="drawing-tools" role="toolbar" aria-label="Maze drawing tools">
+                <button type="button" data-tool="pen" class="active" aria-pressed="true" title="Draw on the maze">✎ Pen</button>
+                <button type="button" data-tool="eraser" aria-pressed="false" title="Erase your drawing">▱ Eraser</button>
+            </div>
+        </div>
+    </div>
+    <div class="comment"></div>
+</section>
+<section id="chapter7">
+    <div class="title">Chapter 7</div>
+    <div class="content">
+        <div class="list"></div>
+        <div class="preview-pane">
+            <div class="preview" aria-label="Draw on the selected maze"></div>
+            <div class="drawing-tools" role="toolbar" aria-label="Maze drawing tools">
+                <button type="button" data-tool="pen" class="active" aria-pressed="true" title="Draw on the maze">✎ Pen</button>
+                <button type="button" data-tool="eraser" aria-pressed="false" title="Erase your drawing">▱ Eraser</button>
+            </div>
+        </div>
+    </div>
+    <div class="comment"></div>
+</section>
+<section id="chapter8">
+    <div class="title">Chapter 8</div>
+    <div class="content">
+        <div class="list"></div>
+        <div class="preview-pane">
+            <div class="preview" aria-label="Draw on the selected maze"></div>
+            <div class="drawing-tools" role="toolbar" aria-label="Maze drawing tools">
+                <button type="button" data-tool="pen" class="active" aria-pressed="true" title="Draw on the maze">✎ Pen</button>
+                <button type="button" data-tool="eraser" aria-pressed="false" title="Erase your drawing">▱ Eraser</button>
+            </div>
+        </div>
+    </div>
+    <div class="comment"></div>
+</section>
+<section id="end">
+    <h1>THE END</h1>
+</section>
+</body>
+
+<style>
+    :root {
+        color-scheme: dark;
+        --black: #F4F1ED;
+        --white: #15171A;
+        --gray: #A8ABB0;
+        --red: #FF6860;
+        --yellow: #FFD34F;
+        --glass-text: #eee;
+        --glass-bg: rgba(255, 255, 255, 0.05);
+        --glass-shadow:
+                inset 1px 1px 6px rgba(255, 255, 255, 0.3),
+                2px 2px 15px rgba(0, 0, 0, 0.5);
+    }
+    [data-theme="light"] {
+        color-scheme: light;
+        --black: #202124;
+        --white: #FAF9F6;
+        --gray: #70747A;
+        --red: #C83F3C;
+        --yellow: #E8B923;
+        --glass-text: #222;
+        --glass-bg: rgba(255, 255, 255, 0.35);
+        --glass-shadow:
+                inset 1px 1px 4px rgba(255, 255, 255, 0.9),
+                inset -1px -1px 4px rgba(0, 0, 0, 0.06),
+                2px 4px 15px rgba(0, 0, 0, 0.15);
+    }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Times New Roman', Times, serif;
+        font-weight: normal;
+        scrollbar-width: none;
+        background: var(--white);
+    }
+    html {
+        scroll-snap-type: y mandatory;
+        scroll-behavior: smooth;
+    }
+    body {
+        margin: 0;
+        position: relative;
+    }
+    section {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+        color: var(--black);
+        position: relative;
+    }
+    .rules {
+        padding: 100px;
+    }
+    .comment {
+        position: absolute;
+        bottom: 3vh;
+        left: 50%;
+        transform: translateX(-50%);
+        width: fit-content;
+        max-width: 900px;
+        text-align: center;
+        white-space: normal;
+        overflow-wrap: break-word;
+    }
+    .title {
+        position: absolute;
+        top: 5vh;
+    }
+    .content {
+        width: 80vw;
+        height: 80vh;
+        display: grid;
+        grid-template-columns: 15% minmax(0, 1fr);
+        gap: 30px;
+        background: transparent;
+    }
+    .list {
+        display: grid;
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+        grid-auto-rows: max-content;
+        align-content: start;
+        gap: 15px;
+        padding: 10px;
+        min-height: 0;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        background: transparent;
+    }
+    .maze-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        aspect-ratio: 1;
+        padding: 10px;
+        border: 1px solid transparent;
+        border-radius: 5px;
+        background: transparent;
+        color: var(--black);
+        cursor: pointer;
+        transition:
+                background .25s ease,
+                border-color .25s ease,
+                opacity .25s ease;
+    }
+    .maze-item img,
+    .maze-item svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        background: transparent;
+        pointer-events: none;
+    }
+    .maze-item:hover {
+        background: color-mix(
+                in srgb,
+                var(--black) 8%,
+                transparent
+        );
+    }
+    .maze-item.active {
+        border-color: var(--red);
+    }
+    .preview-pane {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: stretch;
+        min-width: 0;
+        min-height: 0;
+        background: transparent;
+    }
+    .preview {
+        flex: 1;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 0;
+        min-height: 0;
+        padding: 30px;
+        background: transparent;
+        overflow: hidden;
+    }
+    .preview > img,
+    .preview > svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        background: transparent;
+    }
+    .preview .maze-svg {
+        cursor: crosshair;
+        touch-action: none;
+        user-select: none;
+        -webkit-user-select: none;
+    }
+    .preview.eraser-mode .maze-svg { cursor: cell; }
+    .drawing-layer { pointer-events: none; }
+    .drawing-tools {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        padding: 9px 0 3px;
+        flex: 0 0 auto;
+        background: transparent;
+    }
+    .drawing-tools button {
+        border: none;
+        border-radius: 20px;
+        padding: 8px 18px;
+        cursor: pointer;
+        font-family: Arial, sans-serif;
+        font-size: 13px;
+        transition: background .2s ease, border-color .2s ease;
+        color: var(--glass-text);
+        background-color: var(--glass-bg);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        box-shadow: var(--glass-shadow);
+    }
+    .drawing-tools button:hover {
+        background: color-mix(in srgb, var(--black) 8%, transparent);
+    }
+    .drawing-tools button.active {
+        border-color: var(--yellow);
+        background: color-mix(in srgb, var(--yellow) 15%, transparent);
+    }
+    .drawing-tools button:focus-visible {
+        outline: 2px solid var(--yellow);
+        outline-offset: 3px;
+    }
+    @media (max-width: 700px) {
+        .content {
+            grid-template-columns: 1fr;
+            grid-template-rows: 25% minmax(0, 1fr);
+            gap: 10px;
+        }
+        .list {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+        .preview { padding: 10px; }
+        .drawing-tools { gap: 6px; }
+        .drawing-tools button { padding: 7px 12px; }
+    }
+    .title {
+        font-size: 1.5rem;
+    }
+    .maze-svg {
+        background: transparent;
+    }
+    .red {
+        color: var(--red);
+    }
+    .yellow {
+        color: var(--yellow);
+    }
+    .bold {
+        -webkit-text-stroke: .3px var(--black);
+    }
+    .sub {
+        font-size: .5rem;
+    }
+    @media print {
+        html, body {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+        .notes,
+        .preview,
+        .drawing-tools,
+        .comment,
+        #cover,
+        #end {
+            display: none !important;
+        }
+        .content {
+            grid-template-columns: 100% minmax(0, 1fr);
+        }
+        .list {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+        .maze-item.active {
+            border-color: transparent;
+        }
+    }
+</style>
+</html>
